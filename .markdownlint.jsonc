@@ -1,0 +1,9 @@
+{
+  // Prose in this repo wraps naturally instead of hard-wrapping at a fixed
+  // column, and reference tables often have long cells — enforcing a line
+  // length here would fight the existing writing style, not catch bugs.
+  "MD013": false,
+  // Aligned-pipe table formatting isn't hand-maintained in this repo's
+  // tables; enforcing it would make every table edit a reformatting diff.
+  "MD060": false
+}

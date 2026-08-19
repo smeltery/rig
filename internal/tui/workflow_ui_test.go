@@ -1,0 +1,267 @@
+package tui
+
+import (
+	"strings"
+	"testing"
+	"time"
+
+	tea "charm.land/bubbletea/v2"
+	"charm.land/lipgloss/v2"
+
+	"github.com/dotbrains/rig/internal/agent"
+	"github.com/dotbrains/rig/internal/phase"
+	"github.com/dotbrains/rig/internal/workflow"
+)
+
+func TestBranchMsgUpdatesFooterBranch(t *testing.T) {
+	m := makeTestModel()
+	m.branch = "main"
+
+	m.Update(branchMsg{branch: "feature/ui-refresh"})
+
+	footer := plain(m.footerLine())
+	if !strings.Contains(footer, "feature/ui-refresh") {
+		t.Fatalf("footer = %q", footer)
+	}
+}
+
+func TestFooterStaysOnOneLineAndSuppressesMissingGit(t *testing.T) {
+	m := makeTestModel()
+	m.width = 28
+	m.cwd = "~/Code/a-long-repository"
+	m.branch = "no-git"
+	m.providerTag = "anthropic"
+	m.modelTag = "claude-sonnet"
+
+	footer := m.footerLine()
+	if strings.Contains(plain(footer), "no-git") {
+		t.Fatalf("footer exposed no-git sentinel: %q", plain(footer))
+	}
+	if got := lipgloss.Width(footer); got > m.width {
+		t.Fatalf("footer width = %d, want <= %d: %q", got, m.width, plain(footer))
+	}
+}
+
+func TestIdleStatusStaysMinimal(t *testing.T) {
+	m := makeTestModel()
+	m.width = 80
+	out := plain(m.statusLine())
+	if out != " ● ready" {
+		t.Fatalf("idle status = %q", out)
+	}
+}
+
+func TestWorkflowProgressDistinguishesFailedPlan(t *testing.T) {
+	m := makeTestModel()
+	m.workflow = &workflowBlock{items: []workflow.Item{
+		{ID: "1", Text: "Implement", Status: workflow.Done},
+		{ID: "2", Text: "Verify", Status: workflow.Failed},
+	}}
+	if got := m.workflowProgress(); got != "2/2 Plan finished · 1 failed" {
+		t.Fatalf("workflow progress = %q", got)
+	}
+}
+
+func TestWorkflowPanel_TabTogglesVisibility(t *testing.T) {
+	m := makeTestModel()
+	m.workflow = &workflowBlock{title: "Workflow", items: []workflow.Item{{ID: "1", Text: "first"}}}
+	m.workflowVisible = true
+	m.layout()
+
+	if got := plain(m.workflowPanelView()); !strings.Contains(got, "Workflow") {
+		t.Fatalf("expected workflow panel visible, got %q", got)
+	}
+
+	m.Update(keyPress(tea.KeyTab))
+	if m.workflowVisible {
+		t.Fatal("expected Tab to hide workflow panel")
+	}
+	if got := m.workflowPanelView(); got != "" {
+		t.Fatalf("expected hidden panel to render empty, got %q", got)
+	}
+
+	m.Update(keyPress(tea.KeyTab))
+	if !m.workflowVisible {
+		t.Fatal("expected second Tab to show workflow panel")
+	}
+}
+
+func TestWorkflowStartsCollapsedWithProgressInStatus(t *testing.T) {
+	m := makeTestModel()
+	m.busy = true
+	m.busySince = time.Now()
+	m.handleWorkflowEvent(workflow.Event{
+		Action: "create",
+		State: workflow.State{Title: "Code change", Items: []workflow.Item{
+			{ID: "1", Text: "Inspect", Status: workflow.Pending},
+			{ID: "2", Text: "Implement", Status: workflow.Pending},
+		}},
+	})
+	m.handleWorkflowEvent(workflow.Event{Action: "start", ID: "1"})
+
+	if m.workflowVisible {
+		t.Fatal("new workflow should not expand over the transcript")
+	}
+	if got := m.workflowPanelView(); got != "" {
+		t.Fatalf("collapsed workflow panel = %q, want empty", got)
+	}
+	if got := plain(m.statusLine()); !strings.Contains(got, "1/2 Inspect") || !strings.Contains(got, "tab show workflow") {
+		t.Fatalf("status should carry compact workflow progress: %q", got)
+	}
+
+	m.Update(keyPress(tea.KeyTab))
+	if got := plain(m.workflowPanelView()); !strings.Contains(got, "Code change") || !strings.Contains(got, "● Inspect") {
+		t.Fatalf("Tab should expand the full workflow: %q", got)
+	}
+}
+
+func TestPhaseLabelStaysAheadOfWorkflowProgress(t *testing.T) {
+	m := makeTestModel()
+	m.phases, _ = phase.Resolve(nil)
+	cmd := m.handleSlashCommand("/review")
+	if cmd == nil {
+		t.Fatal("expected review phase to start")
+	}
+	m.handleWorkflowEvent(workflow.Event{
+		Action: "create",
+		State: workflow.State{Title: "Review current change", Items: []workflow.Item{
+			{ID: "1", Text: "Inspect full diff", Status: workflow.Pending},
+			{ID: "2", Text: "Run checks", Status: workflow.Pending},
+		}},
+	})
+	m.handleWorkflowEvent(workflow.Event{Action: "start", ID: "1"})
+
+	got := plain(m.statusLine())
+	if !strings.Contains(got, "Review · 1/2 Inspect full diff") {
+		t.Fatalf("phase and workflow status = %q", got)
+	}
+
+	m.approval = &approvalState{}
+	if got := plain(m.statusLine()); !strings.Contains(got, "Review · Waiting for approval") {
+		t.Fatalf("approval status lost phase: %q", got)
+	}
+}
+
+func TestFailedPhaseWorkflowKeepsPhaseInCompletionReceipt(t *testing.T) {
+	m := makeTestModel()
+	m.turn = turnStats{phase: "Review", workflow: true}
+	m.workflow = &workflowBlock{items: []workflow.Item{
+		{ID: "1", Text: "Inspect", Status: workflow.Done},
+		{ID: "2", Text: "Verify", Status: workflow.Failed},
+	}}
+
+	summary, ok := m.resultSummary(nil, time.Second)
+	if !ok {
+		t.Fatal("expected result summary")
+	}
+	if got := plain(summary.render(80, nil)); !strings.Contains(got, "Review finished with issues") {
+		t.Fatalf("failed phase receipt = %q", got)
+	}
+}
+
+func TestWorkflowPanel_TabDoesNotStealPickerAcceptance(t *testing.T) {
+	withSlashCommands(t, []slashCommand{
+		{"/help", "show this list"},
+		{"/resume", "resume a session"},
+	})
+	m := makeTestModel()
+	m.workflow = &workflowBlock{title: "Workflow", items: []workflow.Item{{ID: "1", Text: "first"}}}
+	m.workflowVisible = true
+	m.input.SetValue("/")
+	m.updateSlashPicker()
+	m.Update(keyPress(tea.KeyDown))
+
+	m.Update(keyPress(tea.KeyTab))
+
+	if got := m.input.Value(); got != "/resume" {
+		t.Fatalf("Tab should accept slash picker before toggling workflow, got %q", got)
+	}
+	if !m.workflowVisible {
+		t.Fatal("workflow visibility changed while picker handled Tab")
+	}
+}
+
+func TestWorkflowPanel_UserExpansionSurvivesTurnCompletion(t *testing.T) {
+	m := makeTestModel()
+	m.height = 24
+	m.busy = true
+	m.busySince = time.Now()
+	m.turn = turnStats{workflow: true}
+	m.workflow = &workflowBlock{title: "Workflow", items: []workflow.Item{
+		{ID: "1", Text: "inspect", Status: workflow.Done},
+		{ID: "2", Text: "test", Status: workflow.Done},
+	}}
+	m.workflowVisible = true
+	m.layout()
+	before := m.viewport.Height()
+
+	m.Update(sendResultMsg{})
+
+	if m.workflow == nil {
+		t.Fatal("completed workflow should remain available for inspection")
+	}
+	if !m.workflowVisible {
+		t.Fatal("completed workflow should remain expanded until the user closes it")
+	}
+	if got := m.viewport.Height(); got != before {
+		t.Fatalf("turn completion changed viewport height from %d to %d", before, got)
+	}
+}
+
+func TestWorkflowPanel_ClearsCompletedWorkflowBeforeNextTurn(t *testing.T) {
+	m := makeTestModel()
+	m.workflow = &workflowBlock{title: "Old plan", items: []workflow.Item{
+		{ID: "1", Text: "old", Status: workflow.Done},
+		{ID: "2", Text: "done", Status: workflow.Skipped},
+	}}
+	m.workflowVisible = true
+
+	m.submitUserTurn("hello", "hello", nil)
+
+	if m.workflow != nil {
+		t.Fatalf("completed workflow should be cleared before next turn, got %+v", m.workflow)
+	}
+	if m.workflowVisible {
+		t.Fatal("cleared workflow should not remain visible")
+	}
+}
+
+func TestUserWorkflowWaitsForWorkflowTool(t *testing.T) {
+	m := makeTestModel()
+	input := "Follow this workflow:\n1. Inspect the issue\n2. Implement the change"
+
+	m.submitUserTurn(input, input, nil)
+
+	if m.workflow != nil {
+		t.Fatalf("user text should not bypass the workflow tool, got %+v", m.workflow)
+	}
+}
+
+func TestWorkflowToolPreservesStepsAndAttachesActivity(t *testing.T) {
+	m := makeTestModel()
+	m.handleWorkflowEvent(workflow.Event{
+		Action: "create",
+		State: workflow.State{
+			Title: "Code change",
+			Items: []workflow.Item{
+				{ID: "1", Text: "Inspect the issue", Status: workflow.Pending},
+				{ID: "2", Text: "Implement the change", Status: workflow.Pending},
+			},
+		},
+	})
+	m.handleWorkflowEvent(workflow.Event{Action: "start", ID: "1"})
+	m.handleEvent(agent.Event{Kind: agent.EventToolCall, Name: "read_file", Args: map[string]any{"path": "AGENTS.md"}})
+
+	if m.workflow == nil || len(m.workflow.items) != 2 {
+		t.Fatalf("workflow = %+v, want two items", m.workflow)
+	}
+	if got := m.workflow.items[0].Text; got != "Inspect the issue" {
+		t.Fatalf("first step = %q, want preserved text", got)
+	}
+	if got := m.workflow.items[1].Text; got != "Implement the change" {
+		t.Fatalf("second step = %q, want preserved text", got)
+	}
+	if got := m.workflow.items[0].Detail; got != "Reading AGENTS.md" {
+		t.Fatalf("active step detail = %q, want attached activity", got)
+	}
+}

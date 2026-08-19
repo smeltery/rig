@@ -1,0 +1,116 @@
+# rig default configuration.
+# Override by creating ./rig.yaml in a project, or ~/.rig/config.yaml globally.
+# The first file found wins — config files are NOT merged.
+
+# LLM backend: "anthropic" (default), "openai", "openrouter", or "google".
+# anthropic  → requires ANTHROPIC_API_KEY
+# openai     → uses the Responses API; auth via openai_auth (below)
+# openrouter → uses Chat Completions via OPENROUTER_API_KEY
+# google     → uses Gemini via GOOGLE_API_KEY
+provider: anthropic
+
+# How OpenAI authenticates when it is the configured provider:
+#   api_key      → uses OPENAI_API_KEY (default)
+#   subscription → uses a ChatGPT/Codex subscription via device-code auth; run `rig login`
+# openai_auth: api_key
+
+model: claude-opus-5
+
+# Optional backend for chat-spawned subagents. When omitted, subagents follow
+# the coordinator's active provider and model, including changes from /model.
+# subagents:
+#   provider: anthropic
+#   model: <claude-model-id>
+
+# Optional interactive confirmations. Entries match exact tool names and Bash
+# command prefixes. This is user-interface friction, not a security boundary.
+# tool_approvals:
+#   - git
+#   - rm -rf
+#   - write_file
+
+# Long transcripts compact at 70% of this context window estimate. Keep this
+# conservative by default; raise it for larger-context models.
+compaction:
+  context_window_tokens: 200000
+
+# Optional, layered capabilities. Each defaults to on when omitted; set a flag
+# to false to disable it. The core agent loop is never affected by these.
+features:
+  agents_file: true # load AGENTS.md (project tree + ~/.rig) into the system prompt
+  skills: true      # discover .rig/skills, advertise them, expand $name and /name references
+  prompt_caching: true # cache_control the static system prompt prefix to cut input cost
+
+# Tool activity rendering during chat:
+#   verbose: false (default) → live activity plus concise completed receipts
+#                              (e.g. "Read <path>"); errors and direct !
+#                              command output always show in full
+#   verbose: true            → full tool call/result cards, including file
+#                              contents and command output
+output:
+  verbose: false
+
+# Named prompts shown as slash commands and as the active phase in the TUI.
+# Rig always provides design, plan, build, and review. Add a new phase or
+# override a default by name. Omitted default fields keep their built-in value.
+# phases:
+#   security:
+#     description: Review authentication and trust boundaries
+#     prompt: |
+#       Inspect the requested security boundary.
+#       Report and fix actionable findings, then rerun relevant checks.
+#   review:
+#     prompt: |
+#       Apply this project's review policy to the requested scope.
+
+# ----------------------------------------------------------------------------
+# Example provider configurations
+# ----------------------------------------------------------------------------
+# Copy ONE of the blocks below over the `provider`/`model` lines above to switch
+# backends. Remember: the first config file found wins, so edit the file rig is
+# actually loading (./rig.yaml in a project, or ~/.rig/config.yaml globally).
+#
+# Leave `model` unset to use the provider's built-in default. Model names move
+# fast — check each provider's current model list rather than copying an id from
+# here verbatim.
+#
+# --- Anthropic (API key) -----------------------------------------------------
+# Requires: export ANTHROPIC_API_KEY=sk-ant-...
+# Models: https://docs.anthropic.com/en/docs/about-claude/models
+#
+# provider: anthropic
+# model: <claude-model-id>
+#
+# --- OpenAI (API key) --------------------------------------------------------
+# Requires: export OPENAI_API_KEY=sk-...
+# Models: https://platform.openai.com/docs/models
+#
+# provider: openai
+# openai_auth: api_key
+# model: <openai-model-id>
+#
+# --- OpenAI (ChatGPT / Codex subscription) -----------------------------------
+# Uses your ChatGPT/Codex plan instead of an API key.
+# Run `rig login` once to authorize (device-code flow); credentials are stored
+# in ~/.rig/auth.json. Remove them later with `rig logout`.
+# Leave `model` unset to use the subscription's supported default.
+#
+# provider: openai
+# openai_auth: subscription
+#
+# --- OpenRouter --------------------------------------------------------------
+# Requires: export OPENROUTER_API_KEY=sk-or-...
+# Models are a live list (provider/model form). Query the current catalogue:
+#   curl https://openrouter.ai/api/v1/models | jq '.data[].id'
+# or browse https://openrouter.ai/models
+#
+# provider: openrouter
+# model: <provider/model-id>
+#
+# --- Google Gemini -----------------------------------------------------------
+# Requires: export GOOGLE_API_KEY=...
+# Models: https://ai.google.dev/gemini-api/docs/models
+#
+# provider: google
+# model: gemini-3.5-flash
+# ----------------------------------------------------------------------------

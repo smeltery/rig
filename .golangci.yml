@@ -1,0 +1,35 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - misspell
+    - staticcheck
+  settings:
+    errcheck:
+      # Close/Fprint* errors on already-open handles and CLI output streams
+      # aren't actionable — nothing sensible to do differently on failure.
+      exclude-functions:
+        - (*os.File).Close
+        - (*os.Root).Close
+        - (io.ReadCloser).Close
+        - (net/http.ResponseWriter).Write
+        - fmt.Fprintln
+        - fmt.Fprintf
+    staticcheck:
+      checks:
+        - all
+        - -QF1012
+        - -S1016
+        - -ST1000
+
+formatters:
+  enable:
+    - gofmt

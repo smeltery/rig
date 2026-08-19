@@ -1,0 +1,63 @@
+version: 2
+
+project_name: rig
+
+builds:
+  - id: rig
+    main: ./cmd/rig
+    binary: rig
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.Version={{ .Version }}
+
+archives:
+  - id: rig
+    ids:
+      - rig
+    formats:
+      - tar.gz
+    # Nightly (snapshot) builds append the version so multiple nightlies
+    # don't collide; tagged releases keep the plain name.
+    name_template: >-
+      {{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .IsSnapshot }}_{{ .Version }}{{ end }}
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: checksums.txt
+
+snapshot:
+  # nightly.yml sets RIG_SNAPSHOT_VERSION to its own date+commit scheme
+  # before invoking a snapshot build/release; this has no other caller.
+  version_template: "{{ .Env.RIG_SNAPSHOT_VERSION }}"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+
+release:
+  github:
+    owner: dotbrains
+    name: rig
+  footer: |
+    ## Install
+
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/dotbrains/rig/main/install.sh | bash
+    ```

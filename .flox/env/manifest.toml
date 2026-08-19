@@ -1,0 +1,18 @@
+version = 1
+
+[install]
+go.pkg-path = "go"
+go.version = "1.25.12"
+bun.pkg-path = "bun"
+
+[vars]
+
+[hook]
+on-activate = '''
+  echo "rig dev environment: $(go version), bun $(bun --version)"
+'''
+
+[profile]
+
+[options]
+systems = ["x86_64-linux", "aarch64-linux", "x86_64-darwin", "aarch64-darwin"]

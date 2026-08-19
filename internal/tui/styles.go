@@ -1,0 +1,75 @@
+package tui
+
+import "charm.land/lipgloss/v2"
+
+var (
+	colMuted  = lipgloss.Color("244")
+	colDim    = lipgloss.Color("240")
+	colAccent = lipgloss.Color("12")
+	colTool   = lipgloss.Color("14")
+	colOK     = lipgloss.Color("10")
+	// Failure palette. Routine execution failures are part of normal agent
+	// exploration, so they use warm copper. Muted rose is reserved for errors
+	// that stop or block the user's current action.
+	colWarn = lipgloss.Color("173")
+	colErr  = lipgloss.Color("167")
+	// Status-dot palette. The dot is always present in the status line; its
+	// color encodes what the agent is doing.
+	colDotReady    = lipgloss.Color("42")  // green  — idle, awaiting input
+	colDotThinking = lipgloss.Color("208") // orange — model is thinking
+	colDotTool     = lipgloss.Color("14")  // cyan   — a tool is in flight
+	colCardBg      = lipgloss.Color("236")
+	colToolBg      = lipgloss.Color("235")
+	colInputBg     = lipgloss.Color("234")
+	// Accent-bar colours for attention blocks. A left stripe replaces heavy
+	// background fills.
+	colApprove = colAccent
+
+	styMuted    = lipgloss.NewStyle().Foreground(colMuted)
+	styDim      = lipgloss.NewStyle().Foreground(colDim)
+	styLabel    = lipgloss.NewStyle().Bold(true)
+	styAccent   = lipgloss.NewStyle().Foreground(colAccent).Bold(true)
+	styTool     = lipgloss.NewStyle().Foreground(colTool).Bold(true)
+	styOK       = lipgloss.NewStyle().Foreground(colOK)
+	styWarn     = lipgloss.NewStyle().Foreground(colWarn)
+	styErr      = lipgloss.NewStyle().Foreground(colErr)
+	styThinking = lipgloss.NewStyle().Foreground(colMuted)
+
+	styCardTool = lipgloss.NewStyle().
+			Background(colToolBg).
+			Padding(0, 1)
+
+	styCardResult = lipgloss.NewStyle().
+			Background(colCardBg).
+			Padding(0, 1)
+
+	// Failed tool output keeps the standard card surface; the surrounding
+	// copper status glyph carries severity without an alarming red fill.
+	styCardErr = lipgloss.NewStyle().
+			Background(colCardBg).
+			Padding(0, 1)
+
+	styResultSummary = lipgloss.NewStyle().
+				Padding(0, 1)
+
+	// styInputBar renders the chat input as a single solid-color block with
+	// no borders — matching the OpenAI Codex composer. The vertical padding
+	// keeps the one-row textarea from feeling cramped now that the framing
+	// borders are gone.
+	styInputBar = lipgloss.NewStyle().
+			Background(colInputBg).
+			Padding(1, 1)
+
+	styPicker = lipgloss.NewStyle().
+			Padding(0, 1)
+
+	styPickerSelected = lipgloss.NewStyle().
+				Foreground(colTool).
+				Bold(true)
+
+	styPickerCommand = lipgloss.NewStyle().
+				Bold(true)
+
+	styFooter = lipgloss.NewStyle().
+			Foreground(colMuted)
+)

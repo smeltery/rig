@@ -1,0 +1,293 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/dotbrains/rig/internal/auth"
+	"github.com/dotbrains/rig/internal/config"
+	"github.com/dotbrains/rig/internal/llm"
+	"github.com/dotbrains/rig/internal/llm/anthropic"
+	"github.com/dotbrains/rig/internal/llm/google"
+	"github.com/dotbrains/rig/internal/llm/openai"
+	"github.com/dotbrains/rig/internal/llm/openrouter"
+	"github.com/dotbrains/rig/internal/session"
+	"github.com/dotbrains/rig/internal/tui"
+)
+
+func newProvider(cfg *config.Config, name string) (llm.Provider, error) {
+	switch name {
+	case "openai":
+		if cfg.OpenAIAuth == config.OpenAIAuthSubscription {
+			return newCodexProvider()
+		}
+		return openai.New()
+	case "openrouter":
+		return openrouter.New()
+	case "google":
+		return google.New()
+	case "anthropic", "":
+		return anthropic.New()
+	default:
+		return nil, fmt.Errorf("unknown provider %q (expected \"anthropic\", \"openai\", \"openrouter\", or \"google\")", name)
+	}
+}
+
+func checkedProvider(ctx context.Context, cfg *config.Config, name string) (llm.Provider, error) {
+	if name == "openai" && cfg.OpenAIAuth == config.OpenAIAuthSubscription {
+		store, err := auth.DefaultStore()
+		if err != nil {
+			return nil, err
+		}
+		if _, err := auth.NewTokenSource(store, auth.ProviderOpenAICodex).Token(ctx); err != nil {
+			return nil, fmt.Errorf("OpenAI subscription credentials: %w", err)
+		}
+	}
+	return newProvider(cfg, name)
+}
+
+func chatSessionProvider(ctx context.Context, cfg *config.Config, sess *session.Session, name string) (llm.Provider, error) {
+	if sess != nil {
+		return checkedProvider(ctx, cfg, name)
+	}
+	return newProvider(cfg, name)
+}
+
+// newCodexProvider builds the ChatGPT/Codex subscription client from stored
+// device-code credentials, erroring clearly if the user hasn't logged in.
+func newCodexProvider() (llm.Provider, error) {
+	store, err := auth.DefaultStore()
+	if err != nil {
+		return nil, err
+	}
+	if _, ok, err := store.Get(auth.ProviderOpenAICodex); err != nil {
+		return nil, err
+	} else if !ok {
+		return nil, fmt.Errorf("not logged in to an OpenAI subscription: run `rig login`")
+	}
+	src := auth.NewTokenSource(store, auth.ProviderOpenAICodex)
+	return openai.NewCodex(codexCredentials{ts: src}), nil
+}
+
+// codexCredentials adapts auth.TokenSource to openai.CredentialSource.
+type codexCredentials struct{ ts *auth.TokenSource }
+
+func (c codexCredentials) Token(ctx context.Context) (accessToken, accountID string, err error) {
+	cr, err := c.ts.Token(ctx)
+	if err != nil {
+		return "", "", err
+	}
+	return cr.AccessToken, cr.AccountID, nil
+}
+
+// runLogin performs the OpenAI subscription device-code flow and stores the
+// result.
+func runLogin(ctx context.Context, streams stdio) int {
+	store, err := auth.DefaultStore()
+	if err != nil {
+		fmt.Fprintf(streams.err, "login: %v\n", err)
+		return 1
+	}
+
+	creds, err := auth.LoginOpenAI(ctx, auth.LoginOptions{
+		OnDeviceCode: func(url, code string) {
+			fmt.Fprintln(streams.out, "Log in to OpenAI with this device code:")
+			fmt.Fprintln(streams.out, "\n  "+url)
+			fmt.Fprintln(streams.out, "  Code: "+code+"\n")
+			fmt.Fprintln(streams.out, "The code expires after 15 minutes. Never share it.")
+			fmt.Fprintln(streams.out, "Waiting for authorization to complete...")
+		},
+	})
+	if err != nil {
+		fmt.Fprintf(streams.err, "login failed: %v\n", err)
+		return 1
+	}
+	if err := store.Set(auth.ProviderOpenAICodex, creds); err != nil {
+		fmt.Fprintf(streams.err, "save credentials: %v\n", err)
+		return 1
+	}
+	fmt.Fprintln(streams.out, "Login complete. Credentials saved to "+store.Path()+".")
+	fmt.Fprintln(streams.out, "Set `provider: openai` and `openai_auth: subscription` in rig.yaml to use them.")
+	return 0
+}
+
+// runLogout removes stored subscription credentials.
+func runLogout(streams stdio) int {
+	store, err := auth.DefaultStore()
+	if err != nil {
+		fmt.Fprintf(streams.err, "logout: %v\n", err)
+		return 1
+	}
+	if err := store.Delete(auth.ProviderOpenAICodex); err != nil {
+		fmt.Fprintf(streams.err, "logout: %v\n", err)
+		return 1
+	}
+	fmt.Fprintln(streams.out, "Logged out of OpenAI subscription.")
+	return 0
+}
+
+func sessionBackend(cfg *config.Config, meta session.Metadata, errOut io.Writer) (string, string) {
+	if meta.Provider == "" || meta.Model == "" {
+		return cfg.Provider, cfg.Model
+	}
+	savedProvider := sessionProviderID(meta.Provider)
+	if savedProvider == "openai" {
+		savedAuth := savedOpenAIAuth(meta)
+		configuredAuth := configuredOpenAIAuth(cfg)
+		if savedAuth != configuredAuth {
+			fmt.Fprintf(errOut, "warning: session OpenAI auth mode %s does not match configured %s; continuing with %s model %s\n",
+				savedAuth, configuredAuth, cfg.Provider, cfg.Model)
+			return cfg.Provider, cfg.Model
+		}
+	}
+	if savedProvider == cfg.Provider || providerCredentialPresent(cfg, savedProvider) {
+		return savedProvider, meta.Model
+	}
+	fmt.Fprintf(errOut, "warning: session provider %s is not configured; continuing with %s model %s\n",
+		meta.Provider, cfg.Provider, cfg.Model)
+	return cfg.Provider, cfg.Model
+}
+
+// sessionProviderID maps adapter-specific names to stable configuration
+// provider IDs suitable for session persistence and reconstruction. The Codex
+// subscription adapter historically exposed openai-codex as its diagnostic
+// name, but it is configured and resumed through the openai provider.
+func sessionProviderID(adapterName string) string {
+	if adapterName == "openai-codex" {
+		return "openai"
+	}
+	return adapterName
+}
+
+func adapterOpenAIAuth(adapterName string) string {
+	switch adapterName {
+	case "openai-codex":
+		return config.OpenAIAuthSubscription
+	case "openai":
+		return config.OpenAIAuthAPIKey
+	default:
+		return ""
+	}
+}
+
+func savedOpenAIAuth(meta session.Metadata) string {
+	if meta.OpenAIAuth != "" {
+		return meta.OpenAIAuth
+	}
+	// Before auth mode was persisted, openai-codex was written only by the
+	// subscription adapter and openai only by the API-key adapter.
+	return adapterOpenAIAuth(meta.Provider)
+}
+
+func configuredOpenAIAuth(cfg *config.Config) string {
+	if cfg.OpenAIAuth == config.OpenAIAuthSubscription {
+		return config.OpenAIAuthSubscription
+	}
+	return config.OpenAIAuthAPIKey
+}
+
+func modelChoices(ctx context.Context, cfg *config.Config, activeProvider string, errOut io.Writer) []tui.ModelChoice {
+	if activeProvider == "" {
+		activeProvider = cfg.Provider
+		if activeProvider == "" {
+			activeProvider = "anthropic"
+		}
+	}
+	return providerModelChoices(ctx, cfg, activeProvider, errOut)
+}
+
+func providerCredentialPresent(cfg *config.Config, provider string) bool {
+	switch provider {
+	case "anthropic":
+		return strings.TrimSpace(os.Getenv("ANTHROPIC_API_KEY")) != ""
+	case "openai":
+		if cfg.OpenAIAuth == config.OpenAIAuthSubscription {
+			store, err := auth.DefaultStore()
+			if err != nil {
+				return false
+			}
+			_, ok, err := store.Get(auth.ProviderOpenAICodex)
+			return err == nil && ok
+		}
+		return strings.TrimSpace(os.Getenv("OPENAI_API_KEY")) != ""
+	case "openrouter":
+		return strings.TrimSpace(os.Getenv("OPENROUTER_API_KEY")) != ""
+	case "google":
+		return strings.TrimSpace(os.Getenv("GOOGLE_API_KEY")) != ""
+	default:
+		return false
+	}
+}
+
+func providerModelChoices(ctx context.Context, cfg *config.Config, provider string, errOut io.Writer) []tui.ModelChoice {
+	switch provider {
+	case "openai":
+		if cfg.OpenAIAuth == config.OpenAIAuthSubscription {
+			return []tui.ModelChoice{
+				{ID: "gpt-5-codex", Name: "GPT-5 Codex", Description: "Supported ChatGPT/Codex subscription model"},
+			}
+		}
+		return []tui.ModelChoice{
+			{ID: "gpt-5.6-sol", Name: "GPT-5.6 Sol", Description: "Recommended flagship model for coding and agentic tasks"},
+			{ID: "gpt-5.6-terra", Name: "GPT-5.6 Terra", Description: "Balance of intelligence and cost, competitive with GPT-5.5"},
+			{ID: "gpt-5.6-luna", Name: "GPT-5.6 Luna", Description: "Fastest, most affordable GPT-5.6 model"},
+			{ID: "gpt-5.2", Name: "GPT-5.2", Description: "Previous-generation flagship model"},
+			{ID: "gpt-5.1", Name: "GPT-5.1", Description: "Coding and agentic model with configurable reasoning"},
+			{ID: "gpt-5", Name: "GPT-5", Description: "Previous GPT-5 reasoning model"},
+			{ID: "gpt-5-mini", Name: "GPT-5 mini", Description: "Faster, lower-cost GPT-5 model"},
+			{ID: "gpt-5-nano", Name: "GPT-5 nano", Description: "Smallest GPT-5 model"},
+			{ID: "gpt-4.1", Name: "GPT-4.1", Description: "Non-reasoning model for general coding tasks"},
+			{ID: "gpt-4o", Name: "GPT-4o", Description: "Fast multimodal GPT-4o model"},
+			{ID: "gpt-4o-mini", Name: "GPT-4o mini", Description: "Smaller GPT-4o model"},
+		}
+	case "openrouter":
+		return openRouterModelChoices(ctx, errOut)
+	case "google":
+		return []tui.ModelChoice{
+			{ID: google.DefaultModel, Name: "Gemini 3.5 Flash", Description: "Stable Google Gemini model for coding and agentic tasks"},
+			{ID: "gemini-3.1-pro-preview", Name: "Gemini 3.1 Pro Preview", Description: "Higher-capability preview model for complex coding tasks"},
+			{ID: "gemini-3.1-flash-lite", Name: "Gemini 3.1 Flash-Lite", Description: "Lower-cost stable Gemini model"},
+		}
+	default:
+		return []tui.ModelChoice{
+			{ID: "claude-opus-5", Name: "Claude Opus 5", Description: "Default Anthropic model, flagship reasoning and coding"},
+			{ID: "claude-sonnet-5", Name: "Claude Sonnet 5", Description: "Faster, lower-cost frontier Anthropic model"},
+			{ID: "claude-haiku-4-5-20251001", Name: "Claude Haiku 4.5", Description: "Smallest, fastest Anthropic model"},
+			{ID: "claude-opus-4-8", Name: "Claude Opus 4.8", Description: "Previous-generation Anthropic model"},
+		}
+	}
+}
+
+// openRouterModelChoices fetches the live OpenRouter model catalogue. Model ids
+// move fast, so the picker is populated from OpenRouter's /models endpoint rather
+// than a hardcoded list. On failure (offline, timeout, API change) it falls back
+// to the provider default so the picker still works. The fetch is time-boxed so
+// startup never hangs on a slow network.
+func openRouterModelChoices(ctx context.Context, errOut io.Writer) []tui.ModelChoice {
+	fetchCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	models, err := openrouter.Models(fetchCtx, nil)
+	if err != nil || len(models) == 0 {
+		if err != nil {
+			fmt.Fprintf(errOut, "warning: could not fetch OpenRouter models (%v); using default\n", err)
+		}
+		return []tui.ModelChoice{
+			{ID: openrouter.DefaultModel, Name: openrouter.DefaultModel, Description: "Default OpenRouter model"},
+		}
+	}
+
+	choices := make([]tui.ModelChoice, 0, len(models))
+	for _, m := range models {
+		name := m.Name
+		if name == "" {
+			name = m.ID
+		}
+		choices = append(choices, tui.ModelChoice{ID: m.ID, Name: name, Description: m.Description})
+	}
+	return choices
+}

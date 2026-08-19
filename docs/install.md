@@ -1,0 +1,43 @@
+# Install
+
+Rig has one supported installation path:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dotbrains/rig/main/install.sh | bash
+```
+
+The script detects macOS or Linux on AMD64 or ARM64, downloads the matching archive
+from GitHub Releases, and verifies its SHA-256 checksum before installing it. The
+installation stops if the archive or checksum cannot be downloaded, the checksum
+entry is missing, no SHA-256 tool is available, or verification fails.
+
+It uses the first existing writable directory from `~/.local/bin`, `~/bin`, or
+`/usr/local/bin`. If none qualifies, it creates and uses `~/.local/bin`. The
+installer warns when the selected directory is not on `PATH`.
+
+```bash
+# Pin a specific version
+curl -fsSL .../install.sh | bash -s -- --version v1.2.3
+
+# Install to a custom directory
+curl -fsSL .../install.sh | bash -s -- --bin-dir /usr/local/bin
+```
+
+## Build for development
+
+```bash
+git clone https://github.com/dotbrains/rig.git
+cd rig
+just build
+```
+
+`just build` stamps the current git description into the binary as the version shown on the
+splash screen. Run `just print-version` to preview the stamped value.
+
+## Updating
+
+Rerun the one-line installer. It resolves the latest stable GitHub release and
+replaces the installed binary after checksum verification. Use `--version` to
+install or return to a specific release.
+
+Next: [Quick start](quick-start.md).

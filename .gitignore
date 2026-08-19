@@ -1,0 +1,9 @@
+.env
+/bin/
+/dist/
+/.agent/
+/rig
+.DS_Store
+/.codex-worktrees/
+/.rig/events.jsonl
+/.rig/eval-results/

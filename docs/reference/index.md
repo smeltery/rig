@@ -1,0 +1,14 @@
+# Rig Reference Docs
+
+These docs are intended for both humans and Rig itself. Update them alongside behavior changes.
+
+Start here when changing Rig:
+
+- [Architecture](architecture.md) explains the module boundaries.
+- [CLI](cli.md) documents commands and startup flow.
+- [Configuration](config.md) documents config loading and feature flags.
+- [Sessions](sessions.md) documents persisted conversations.
+- [Tools](tools.md) documents the built-in tool surface.
+- [Named phases](phases.md) documents built-in and configurable prompt commands.
+- [Prompt caching](prompt-caching.md) documents structured system prompt blocks.
+- [Guides](guides/index.md) explain the core ideas in plain language.

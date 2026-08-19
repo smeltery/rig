@@ -1,0 +1,58 @@
+# Providers
+
+## The Simple Idea
+
+A provider is the adapter between Rig and a model API. Rig speaks its own small internal language; providers translate that into Anthropic, OpenAI, OpenRouter, or Gemini requests.
+
+## The Problem
+
+Different model APIs use different request shapes, response shapes, tool-call formats, auth methods, retry behavior, and token accounting. OpenRouter uses an OpenAI-compatible Chat Completions shape while OpenAI itself uses the newer Responses API in Rig.
+
+Rig should not bake any one provider into the agent loop.
+
+## How Rig Solves It
+
+Rig defines one provider interface:
+
+```go
+type Provider interface {
+    Name() string
+    Complete(ctx context.Context, req Request) (*Response, error)
+}
+```
+
+The core loop sends an `llm.Request`. The provider returns an `llm.Response`. Everything provider-specific stays behind the adapter.
+
+## Current Providers
+
+| Provider config | Auth | Adapter |
+| --- | --- | --- |
+| `provider: anthropic` | `ANTHROPIC_API_KEY` | `internal/llm/anthropic` |
+| `provider: openai` + `openai_auth: api_key` | `OPENAI_API_KEY` | `internal/llm/openai.Client` |
+| `provider: openai` + `openai_auth: subscription` | `rig login` device-code credentials | `internal/llm/openai.CodexClient` |
+| `provider: openrouter` | `OPENROUTER_API_KEY` | `internal/llm/openrouter` |
+| `provider: google` | `GOOGLE_API_KEY` | `internal/llm/google` |
+
+## How Models Are Chosen
+
+The config `model` value is passed through to the provider. If omitted, Rig chooses a provider-aware default.
+
+In the TUI, `/model` opens a model picker. It changes the active model for the current session and saves that session metadata.
+
+## What To Be Careful About
+
+- Provider adapters should translate, not decide product behavior.
+- Retry and response parsing belong in provider packages.
+- The core agent loop should not care whether a response came from Anthropic, OpenAI, OpenRouter, or Google.
+- Subscription/Codex auth is experimental and should be documented carefully.
+
+## Where To Look
+
+- `internal/llm/provider.go`: provider-neutral types.
+- `internal/llm/anthropic`: Anthropic adapter.
+- `internal/llm/openai`: OpenAI adapters.
+- `internal/llm/chatcompletions`: reusable OpenAI-compatible Chat Completions translation.
+- `internal/llm/openrouter`: OpenRouter adapter wiring.
+- `internal/llm/google`: Google Gemini adapter.
+- `internal/auth`: subscription credential storage and refresh.
+- `cmd/rig/main.go`: provider selection.

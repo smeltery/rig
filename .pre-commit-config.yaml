@@ -1,0 +1,54 @@
+repos:
+  - repo: local
+    hooks:
+      - id: gofmt
+        name: gofmt
+        entry: bash -c 'files="$(gofmt -l "$@")"; [ -z "$files" ] || { echo "$files"; exit 1; }' --
+        language: system
+        types: [go]
+        pass_filenames: true
+
+      - id: go-vet
+        name: go vet
+        entry: go vet ./...
+        language: system
+        types: [go]
+        pass_filenames: false
+
+      - id: golangci-lint
+        name: golangci-lint
+        entry: golangci-lint run
+        language: system
+        types: [go]
+        pass_filenames: false
+
+      - id: shellcheck
+        name: shellcheck
+        entry: shellcheck
+        language: system
+        files: \.sh$
+
+      - id: actionlint
+        name: actionlint
+        entry: actionlint
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+
+      - id: markdownlint
+        name: markdownlint
+        entry: markdownlint-cli2
+        language: system
+        files: \.md$
+        exclude: ^\.github/
+
+      - id: check-mermaid
+        name: check-mermaid
+        entry: ./scripts/check-mermaid.sh
+        language: system
+        pass_filenames: false
+
+      - id: loc-budget
+        name: loc-budget
+        entry: ./scripts/loc-budget.sh
+        language: system
+        pass_filenames: false

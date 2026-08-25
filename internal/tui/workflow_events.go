@@ -4,9 +4,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dotbrains/rig/internal/factory"
-	"github.com/dotbrains/rig/internal/logx"
-	"github.com/dotbrains/rig/internal/workflow"
+	"github.com/smeltery/rig/internal/factory"
+	"github.com/smeltery/rig/internal/logx"
+	"github.com/smeltery/rig/internal/workflow"
 )
 
 func (m *model) handleWorkflowEvent(ev workflow.Event) {

@@ -8,15 +8,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dotbrains/rig/internal/auth"
-	"github.com/dotbrains/rig/internal/config"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/anthropic"
-	"github.com/dotbrains/rig/internal/llm/google"
-	"github.com/dotbrains/rig/internal/llm/openai"
-	"github.com/dotbrains/rig/internal/llm/openrouter"
-	"github.com/dotbrains/rig/internal/session"
-	"github.com/dotbrains/rig/internal/tui"
+	"github.com/smeltery/rig/internal/auth"
+	"github.com/smeltery/rig/internal/config"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/anthropic"
+	"github.com/smeltery/rig/internal/llm/google"
+	"github.com/smeltery/rig/internal/llm/openai"
+	"github.com/smeltery/rig/internal/llm/openrouter"
+	"github.com/smeltery/rig/internal/session"
+	"github.com/smeltery/rig/internal/tui"
 )
 
 func newProvider(cfg *config.Config, name string) (llm.Provider, error) {

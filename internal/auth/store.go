@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/dotbrains/rig/internal/atomicfile"
+	"github.com/smeltery/rig/internal/atomicfile"
 )
 
 // Store persists subscription credentials to a JSON file (default ~/.rig/auth.json),

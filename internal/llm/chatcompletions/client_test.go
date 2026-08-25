@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 func TestBuildRequest_SystemMessagesToolsAndToolResults(t *testing.T) {

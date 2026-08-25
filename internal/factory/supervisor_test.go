@@ -11,10 +11,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/llmtest"
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/llmtest"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 type scriptedRunner struct {

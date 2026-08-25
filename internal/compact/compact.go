@@ -3,7 +3,7 @@ package compact
 import (
 	"context"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 type Compactor interface {

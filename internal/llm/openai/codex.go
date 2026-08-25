@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/retry"
-	"github.com/dotbrains/rig/internal/logx"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/retry"
+	"github.com/smeltery/rig/internal/logx"
 )
 
 // codexEndpoint is the ChatGPT/Codex subscription backend. It speaks the same

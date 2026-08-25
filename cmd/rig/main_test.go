@@ -11,16 +11,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/auth"
-	"github.com/dotbrains/rig/internal/compact"
-	"github.com/dotbrains/rig/internal/config"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/google"
-	"github.com/dotbrains/rig/internal/llm/llmtest"
-	"github.com/dotbrains/rig/internal/llm/openai"
-	"github.com/dotbrains/rig/internal/llm/openrouter"
-	"github.com/dotbrains/rig/internal/session"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/auth"
+	"github.com/smeltery/rig/internal/compact"
+	"github.com/smeltery/rig/internal/config"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/google"
+	"github.com/smeltery/rig/internal/llm/llmtest"
+	"github.com/smeltery/rig/internal/llm/openai"
+	"github.com/smeltery/rig/internal/llm/openrouter"
+	"github.com/smeltery/rig/internal/session"
 )
 
 func TestModelChoices_OpenAISubscriptionOnlyListsSupportedCodexModel(t *testing.T) {

@@ -10,8 +10,8 @@ import (
 	"charm.land/glamour/v2"
 	"charm.land/lipgloss/v2"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/workflow"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/workflow"
 )
 
 // block is one rendered unit in the scrollback.

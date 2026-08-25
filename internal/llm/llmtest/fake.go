@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 // FakeProvider returns scripted responses in order. Useful for driving the

@@ -53,11 +53,11 @@ changelog:
 
 release:
   github:
-    owner: dotbrains
+    owner: smeltery
     name: rig
   footer: |
     ## Install
 
     ```bash
-    curl -fsSL https://raw.githubusercontent.com/dotbrains/rig/main/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/smeltery/rig/main/install.sh | bash
     ```

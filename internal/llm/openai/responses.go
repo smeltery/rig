@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 // DefaultModel is used when an API-key request carries no model.

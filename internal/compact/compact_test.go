@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 func TestNoCompactionPreservesMessages(t *testing.T) {

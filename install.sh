@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Rig install script
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/dotbrains/rig/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/smeltery/rig/main/install.sh | bash
 #   bash install.sh [--bin-dir <dir>] [--version <tag>] [--no-api-key-check]
 set -euo pipefail
 
@@ -21,7 +21,7 @@ die()     { printf "%s  %s%s\n" >&2    "${RED}✗${RESET}"   "$*" "${RESET}"; ex
 header()  { printf "\n%s%s%s\n\n"      "${BOLD}" "$*" "${RESET}"; }
 
 # ── Defaults ────────────────────────────────────────────────────────────────
-REPO="dotbrains/rig"
+REPO="smeltery/rig"
 BIN_NAME="rig"
 VERSION=""          # empty = latest release tag
 BIN_DIR=""          # empty = auto-detect

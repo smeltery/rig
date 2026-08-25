@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 // Runner runs a fresh subagent with immutable per-run capabilities. Requiring

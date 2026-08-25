@@ -11,7 +11,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/dotbrains/rig/internal/phase"
+	"github.com/smeltery/rig/internal/phase"
 )
 
 // Resolution paths and embedded fallback.

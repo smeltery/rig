@@ -14,8 +14,8 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/dotbrains/rig/internal/atomicfile"
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/atomicfile"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 const indexFile = "index.json"

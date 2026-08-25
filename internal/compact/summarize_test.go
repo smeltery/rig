@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/llmtest"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/llmtest"
 )
 
 // turns builds n alternating user/assistant messages, each ~400 chars (~100

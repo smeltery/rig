@@ -10,9 +10,9 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/dotbrains/rig/internal/auth"
-	"github.com/dotbrains/rig/internal/config"
-	"github.com/dotbrains/rig/internal/session"
+	"github.com/smeltery/rig/internal/auth"
+	"github.com/smeltery/rig/internal/config"
+	"github.com/smeltery/rig/internal/session"
 )
 
 type doctorStatus string

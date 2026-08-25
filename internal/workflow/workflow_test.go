@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 func TestToolCreateEmitsWorkflow(t *testing.T) {

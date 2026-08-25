@@ -2,7 +2,7 @@
 
 ![demo](docs/assets/screenshot.png)
 
-[![CI](https://github.com/dotbrains/rig/actions/workflows/ci.yml/badge.svg)](https://github.com/dotbrains/rig/actions/workflows/ci.yml)
+[![CI](https://github.com/smeltery/rig/actions/workflows/ci.yml/badge.svg)](https://github.com/smeltery/rig/actions/workflows/ci.yml)
 [![License: PolyForm Shield 1.0.0](https://img.shields.io/badge/license-PolyForm%20Shield%201.0.0-blue.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/go-1.25%2B-00ADD8.svg?logo=go&logoColor=white)](go.mod)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](.pre-commit-config.yaml)
@@ -42,7 +42,7 @@ rig> Find the cause of the failing test, plan the fix, implement it, run the
 rig is a single self-contained binary. The short path is:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/dotbrains/rig/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/smeltery/rig/main/install.sh | bash
 ```
 
 The installer downloads the matching GitHub release for your host, verifies

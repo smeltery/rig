@@ -4,7 +4,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/config"
+	"github.com/smeltery/rig/internal/config"
 )
 
 const basePromptByteBudget = 2048

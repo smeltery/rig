@@ -5,7 +5,7 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 
-	"github.com/dotbrains/rig/internal/logx"
+	"github.com/smeltery/rig/internal/logx"
 )
 
 func (m *model) handleKey(msg tea.KeyMsg) tea.Cmd {

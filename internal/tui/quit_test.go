@@ -9,8 +9,8 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 type cancelBlockingProvider struct {

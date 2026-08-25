@@ -3,7 +3,7 @@
 Rig has one supported installation path:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dotbrains/rig/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/smeltery/rig/main/install.sh | bash
 ```
 
 The script detects macOS or Linux on AMD64 or ARM64, downloads the matching archive
@@ -26,7 +26,7 @@ curl -fsSL .../install.sh | bash -s -- --bin-dir /usr/local/bin
 ## Build for development
 
 ```bash
-git clone https://github.com/dotbrains/rig.git
+git clone https://github.com/smeltery/rig.git
 cd rig
 just build
 ```

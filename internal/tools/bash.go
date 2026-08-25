@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 // MaxBashOutputBytes bounds command output in memory while leaving enough of

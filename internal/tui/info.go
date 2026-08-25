@@ -6,8 +6,8 @@ import (
 
 	"charm.land/glamour/v2"
 
-	"github.com/dotbrains/rig/internal/phase"
-	"github.com/dotbrains/rig/internal/skills"
+	"github.com/smeltery/rig/internal/phase"
+	"github.com/smeltery/rig/internal/skills"
 )
 
 // helpBlock renders the available slash commands and key bindings.

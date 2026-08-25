@@ -59,7 +59,7 @@ agents. Children that follow the coordinator use the active model after a
 keeps the built-in 200,000-token estimate for both.
 
 The embedded source, including annotated provider examples, is
-[`internal/config/defaults/rig.yaml`](https://github.com/dotbrains/rig/blob/main/internal/config/defaults/rig.yaml).
+[`internal/config/defaults/rig.yaml`](https://github.com/smeltery/rig/blob/main/internal/config/defaults/rig.yaml).
 
 ## Provider Selection
 

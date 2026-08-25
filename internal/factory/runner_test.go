@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/compact"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/llmtest"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/compact"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/llmtest"
 )
 
 func TestRegistryHasCodingToolsWithoutNestedAgent(t *testing.T) {

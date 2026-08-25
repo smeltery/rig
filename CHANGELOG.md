@@ -6,4 +6,4 @@ All notable changes to Rig will be documented in this file.
 
 ### Added
 
-- Initial setup of Rig as its own project under `github.com/dotbrains/rig`.
+- Initial setup of Rig as its own project under `github.com/smeltery/rig`.

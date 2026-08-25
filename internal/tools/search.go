@@ -15,8 +15,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/workspace"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/workspace"
 )
 
 const (

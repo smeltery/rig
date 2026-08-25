@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/compact"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/compact"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 const dynamicAgentSystemPrompt = `You are a focused subagent spawned by Rig's chat coordinator.

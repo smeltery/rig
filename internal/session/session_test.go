@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 func TestStoreCreateSaveLoadList(t *testing.T) {

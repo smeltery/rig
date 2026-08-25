@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/dotbrains/rig/internal/atomicfile"
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/atomicfile"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 // MaxReadBytes caps the total bytes ReadFile will return in a single call.

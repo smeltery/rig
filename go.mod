@@ -1,4 +1,4 @@
-module github.com/dotbrains/rig
+module github.com/smeltery/rig
 
 go 1.25.12
 

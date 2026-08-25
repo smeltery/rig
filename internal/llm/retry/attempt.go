@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dotbrains/rig/internal/logx"
+	"github.com/smeltery/rig/internal/logx"
 )
 
 const defaultBaseDelay = 500 * time.Millisecond

@@ -10,9 +10,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/retry"
-	"github.com/dotbrains/rig/internal/logx"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/retry"
+	"github.com/smeltery/rig/internal/logx"
 )
 
 const defaultEndpoint = "https://api.openai.com/v1/responses"

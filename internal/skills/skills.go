@@ -23,7 +23,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/dotbrains/rig/internal/workspace"
+	"github.com/smeltery/rig/internal/workspace"
 )
 
 const fileName = "SKILL.md"

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/config"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/llmtest"
+	"github.com/smeltery/rig/internal/config"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/llmtest"
 )
 
 func TestSubagentBackendFollowsCoordinatorByDefault(t *testing.T) {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dotbrains/rig/internal/config"
-	"github.com/dotbrains/rig/internal/factory"
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/config"
+	"github.com/smeltery/rig/internal/factory"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 // subagentBackend resolves the optional worker backend. The zero-value config

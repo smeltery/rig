@@ -7,8 +7,8 @@ import (
 
 	"github.com/charmbracelet/x/ansi"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/factory"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/factory"
 )
 
 // renderPlain renders a block with ANSI styling stripped, so tests can

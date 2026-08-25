@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/dotbrains/rig/internal/session"
+	"github.com/smeltery/rig/internal/session"
 )
 
 func runSessions(ctx context.Context, args []string, streams stdio) int {

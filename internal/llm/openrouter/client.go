@@ -11,7 +11,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm/chatcompletions"
+	"github.com/smeltery/rig/internal/llm/chatcompletions"
 )
 
 const (

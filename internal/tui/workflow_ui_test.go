@@ -8,9 +8,9 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/phase"
-	"github.com/dotbrains/rig/internal/workflow"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/phase"
+	"github.com/smeltery/rig/internal/workflow"
 )
 
 func TestBranchMsgUpdatesFooterBranch(t *testing.T) {

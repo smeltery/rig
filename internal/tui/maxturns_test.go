@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dotbrains/rig/internal/agent"
+	"github.com/smeltery/rig/internal/agent"
 )
 
 func TestModel_MaxTurnsEventAppendsDistinctBlock(t *testing.T) {

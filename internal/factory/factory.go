@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 // RunOptions are immutable capabilities for one child run.

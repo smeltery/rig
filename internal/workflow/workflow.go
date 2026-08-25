@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 type Status string

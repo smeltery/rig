@@ -8,9 +8,9 @@ import (
 	"charm.land/bubbles/v2/spinner"
 	"charm.land/lipgloss/v2"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/factory"
-	"github.com/dotbrains/rig/internal/workflow"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/factory"
+	"github.com/smeltery/rig/internal/workflow"
 )
 
 func parallelStart(group string, calls ...agent.ToolCallRef) agent.Event {

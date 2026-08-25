@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/dotbrains/rig/internal/workspace"
+	"github.com/smeltery/rig/internal/workspace"
 )
 
 // fileName is the instruction file rig looks for. AGENTS.md is the emerging

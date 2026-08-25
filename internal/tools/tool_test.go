@@ -8,7 +8,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 type serialTestTool struct{}

@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/llm/retry"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm/retry"
 )
 
 // Client talks to an OpenAI-compatible Chat Completions endpoint.

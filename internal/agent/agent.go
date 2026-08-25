@@ -7,10 +7,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/dotbrains/rig/internal/compact"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/logx"
-	"github.com/dotbrains/rig/internal/tools"
+	"github.com/smeltery/rig/internal/compact"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/logx"
+	"github.com/smeltery/rig/internal/tools"
 )
 
 type EventKind string

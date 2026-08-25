@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dotbrains/rig/internal/llm"
+	"github.com/smeltery/rig/internal/llm"
 )
 
 // maxImageBytes caps the size of an attached image. Anthropic rejects images

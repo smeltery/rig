@@ -19,14 +19,14 @@ import (
 	"charm.land/glamour/v2"
 	"charm.land/lipgloss/v2"
 
-	"github.com/dotbrains/rig/internal/agent"
-	"github.com/dotbrains/rig/internal/factory"
-	"github.com/dotbrains/rig/internal/llm"
-	"github.com/dotbrains/rig/internal/logx"
-	"github.com/dotbrains/rig/internal/phase"
-	"github.com/dotbrains/rig/internal/skills"
-	"github.com/dotbrains/rig/internal/tools"
-	"github.com/dotbrains/rig/internal/workflow"
+	"github.com/smeltery/rig/internal/agent"
+	"github.com/smeltery/rig/internal/factory"
+	"github.com/smeltery/rig/internal/llm"
+	"github.com/smeltery/rig/internal/logx"
+	"github.com/smeltery/rig/internal/phase"
+	"github.com/smeltery/rig/internal/skills"
+	"github.com/smeltery/rig/internal/tools"
+	"github.com/smeltery/rig/internal/workflow"
 )
 
 type Options struct {

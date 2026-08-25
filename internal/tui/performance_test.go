@@ -7,7 +7,7 @@ import (
 
 	"charm.land/bubbles/v2/viewport"
 
-	"github.com/dotbrains/rig/internal/workflow"
+	"github.com/smeltery/rig/internal/workflow"
 )
 
 // BenchmarkWorkflowRender measures a representative pure TUI render path.

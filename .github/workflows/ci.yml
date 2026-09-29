@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -34,7 +34,7 @@ jobs:
 
   test:
     name: Test (race detector)
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
@@ -52,7 +52,7 @@ jobs:
 
   test-macos:
     name: Test (macOS)
-    runs-on: blacksmith-6vcpu-macos-15
+    runs-on: macos-15
     timeout-minutes: 15
 
     steps:
@@ -70,7 +70,7 @@ jobs:
 
   vet:
     name: Vet
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -88,7 +88,7 @@ jobs:
 
   fmt:
     name: Formatting
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     steps:
@@ -111,7 +111,7 @@ jobs:
 
   lint:
     name: golangci-lint
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -131,7 +131,7 @@ jobs:
 
   loc-budget:
     name: LOC budget
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     steps:
@@ -143,7 +143,7 @@ jobs:
 
   docs:
     name: Docs checks
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -162,7 +162,7 @@ jobs:
 
   shellcheck:
     name: shellcheck
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     steps:
@@ -174,7 +174,7 @@ jobs:
 
   actionlint:
     name: actionlint
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     steps:

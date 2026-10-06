@@ -1,4 +1,5 @@
-# rig
+<!-- markdownlint-disable-next-line MD033 -->
+# <img src="website/assets/mark.svg" width="32" height="32" alt=""> rig
 
 [![Rig — keep your tools close, your work in view](website/assets/og.png)](docs/README.md)
 

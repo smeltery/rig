@@ -14,6 +14,5 @@
   <text x="96" y="583" font-family="Arial" font-size="16" fill="#a0a6af">macOS</text>
   <image x="176" y="565" width="22" height="22" href="linux.svg"/>
   <text x="208" y="583" font-family="Arial" font-size="16" fill="#a0a6af">Linux</text>
-  <text x="272" y="583" font-family="Arial" font-size="16" fill="#a0a6af">·  One Go binary  ·  Built by Smeltery</text>
   <text x="1136" y="585" text-anchor="end" font-family="Arial" font-size="16" fill="#a0a6af">github.com/smeltery/rig</text>
 </svg>

@@ -1,9 +1,11 @@
 :root {
-  --paper: #f7f7f2;
-  --ink: #282c27;
-  --muted: #6a7065;
-  --line: #dedfd5;
-  --green: #4f6544;
+  color-scheme: dark;
+  --surface: #191c20;
+  --paper: #0f1113;
+  --ink: #e6e8eb;
+  --muted: #a0a6af;
+  --line: #2b3037;
+  --accent: #79aaff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background: var(--paper);
@@ -25,12 +27,12 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: var(--green);
+  color: var(--accent);
 }
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--accent);
   outline-offset: 5px;
 }
 button {
@@ -74,7 +76,7 @@ em {
   letter-spacing: -1.5px;
 }
 .wordmark span {
-  color: var(--green);
+  color: var(--accent);
   margin-left: -7px;
 }
 .header nav {
@@ -103,7 +105,7 @@ em {
   height: 6px;
   border-radius: 50%;
   display: inline-block;
-  background: #81976e;
+  background: #00cc88;
   margin-right: 7px;
 }
 h1 {
@@ -113,7 +115,7 @@ h1 {
   letter-spacing: -0.055em;
 }
 h1 em {
-  color: var(--green);
+  color: var(--accent);
   letter-spacing: -0.065em;
 }
 .lede {
@@ -132,14 +134,14 @@ h1 em {
   gap: 30px;
   align-items: center;
   border-radius: 30px;
-  background: var(--ink);
-  color: white;
+  background: var(--accent);
+  color: var(--paper);
   padding: 15px 23px;
   font-size: 13px;
 }
 .button:hover {
-  background: var(--green);
-  color: white;
+  background: #a6c6ff;
+  color: var(--paper);
 }
 .text-link {
   font-size: 13px;
@@ -152,4 +154,8 @@ h1 em {
   font-size: 11px;
   color: var(--muted);
   margin-top: 17px;
+}
+
+.github img {
+  filter: invert(1);
 }

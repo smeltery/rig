@@ -1,7 +1,8 @@
 # Website
 
 Rig's website is static HTML, CSS, and a small copy-button script in `website/`.
-It follows Convrt and Loft's warm, restrained visual language. There is no
+It combines Convrt and Loft's restrained layout with Rig's charcoal terminal
+background, blue accents, and green ready indicator. There is no
 application framework or runtime service. The same build renders the user docs
 from `docs/`, so documentation has one source of truth.
 

@@ -33,7 +33,7 @@ h2 {
   padding-bottom: 0;
 }
 .steps li > span {
-  color: #8b937f;
+  color: var(--muted);
   font:
     11px ui-monospace,
     monospace;
@@ -63,7 +63,7 @@ h3 {
   padding-top: 25px;
 }
 .feature-icon {
-  color: var(--green);
+  color: var(--accent);
   font-size: 25px;
   display: inline-block;
   margin-bottom: 20px;
@@ -78,7 +78,7 @@ h3 {
 }
 .install {
   border: 1px solid var(--line);
-  background: #eeefe6;
+  background: var(--surface);
   border-radius: 15px;
   padding: 55px 40px;
   text-align: center;
@@ -92,7 +92,7 @@ h3 {
   max-width: 790px;
   margin: 25px auto 0;
   background: var(--paper);
-  border: 1px solid #d8dbcf;
+  border: 1px solid var(--line);
   border-radius: 7px;
   padding: 13px;
   display: flex;
@@ -110,14 +110,15 @@ h3 {
 .command button {
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: white;
+  background: var(--surface);
+  color: var(--ink);
   padding: 7px 10px;
   font-size: 11px;
 }
 .copy-status {
   font-size: 12px;
   min-height: 20px;
-  color: var(--green);
+  color: var(--accent);
 }
 .install .fine {
   margin-top: 0;

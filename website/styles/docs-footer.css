@@ -39,7 +39,8 @@
   position: fixed;
   top: -100px;
   left: 20px;
-  background: white;
+  background: var(--surface);
+  color: var(--ink);
   padding: 12px;
   z-index: 10;
 }
@@ -60,7 +61,7 @@
   font-size: 13px;
 }
 .docs-nav a[aria-current] {
-  color: var(--green);
+  color: var(--accent);
   font-weight: 600;
 }
 .prose {
@@ -91,7 +92,7 @@
 }
 .prose pre {
   overflow: auto;
-  background: #eeefe6;
+  background: var(--surface);
   padding: 18px;
   border-radius: 7px;
   font-size: 12px;

@@ -46,7 +46,9 @@ same SVG so the mark stays consistent across assets.
 source; `og.png` is the 1200 × 630 image used by the README and social metadata.
 Run `bun scripts/brand-assets.ts` to regenerate the PNG and provider marks.
 Keep both sources and generated assets committed. The generator uses the
-locked Simple Icons package for Anthropic, Gemini, OpenRouter, and GitHub. The
+locked Simple Icons package for Anthropic, Gemini, OpenRouter, GitHub, Apple,
+and Linux. Apple and Linux marks identify the supported platforms in the
+social image. The
 OpenAI mark is shared with Smeltery's Trellis brand assets; these marks identify
 supported technologies and do not imply endorsement.
 

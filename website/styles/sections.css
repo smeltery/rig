@@ -1,0 +1,150 @@
+.section {
+  margin-top: 110px;
+}
+h2 {
+  font-size: clamp(30px, 4vw, 43px);
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+}
+.workflow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 85px;
+  border-top: 1px solid var(--line);
+  padding-top: 75px;
+}
+.section-intro > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 23px 0;
+}
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.steps li {
+  display: flex;
+  gap: 22px;
+  padding-bottom: 30px;
+}
+.steps li:last-child {
+  padding-bottom: 0;
+}
+.steps li > span {
+  color: var(--muted);
+  font:
+    11px ui-monospace,
+    monospace;
+  padding-top: 3px;
+}
+h3 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.steps p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 9px;
+}
+.section-heading {
+  text-align: center;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+  margin-top: 45px;
+}
+.feature-grid article {
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+}
+.feature-icon {
+  color: var(--accent);
+  font-size: 25px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.feature-grid p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 13px 0 20px;
+}
+.feature-grid a {
+  font-size: 12px;
+}
+.install {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 15px;
+  padding: 55px 40px;
+  text-align: center;
+}
+.install > p:not(.eyebrow):not(.fine):not(.copy-status) {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 18px;
+}
+.command {
+  max-width: 790px;
+  margin: 25px auto 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 13px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+}
+.command code {
+  font-size: 11px;
+  line-height: 1.7;
+  flex: 1;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.command button {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 7px 10px;
+  font-size: 11px;
+}
+.copy-status {
+  font-size: 12px;
+  min-height: 20px;
+  color: var(--accent);
+}
+.install .fine {
+  margin-top: 0;
+}
+.install .text-link {
+  display: inline-block;
+  margin-top: 25px;
+}
+.faq {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+}
+.questions details {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+.questions details:first-child {
+  padding-top: 0;
+}
+summary {
+  cursor: pointer;
+  font-size: 14px;
+}
+details p {
+  color: var(--muted);
+  font-size: 13px;
+  padding-top: 14px;
+}

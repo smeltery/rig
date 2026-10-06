@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rig — your work, in view.</title>
+    <meta
+      name="description"
+      content="A small coding agent for your terminal. Your repository, your model, and a clear view of the work."
+    />
+    <meta property="og:title" content="Rig — your work, in view." />
+    <meta
+      property="og:description"
+      content="Keep your tools close. Your work in view. A small coding agent for your terminal."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/assets/mark.svg" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="shell header">
+      <a class="wordmark" href="/" aria-label="Rig home"
+        ><img src="/assets/mark.svg" width="30" height="30" alt="" />rig<span
+          >.</span
+        ></a
+      >
+      <nav aria-label="Main">
+        <a href="#workflow">How it works</a><a href="/docs/">Docs</a
+        ><a href="https://github.com/smeltery/rig" class="github"
+          ><img src="/assets/github.svg" width="17" height="17" alt="" />GitHub
+          ↗</a
+        >
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero shell">
+        <p class="eyebrow">
+          <span class="status-dot"></span> A small agent. A clear view of the
+          work.
+        </p>
+        <h1>Keep your tools close.<br /><em>Your work in view.</em></h1>
+        <p class="lede">
+          Meet rig. A coding agent that feels at home in your terminal.<br
+            class="desktop"
+          />
+          Your repository, your model, and a little less ceremony.
+        </p>
+        <div class="actions">
+          <a class="button" href="#install"
+            >Get started <span aria-hidden="true">↓</span></a
+          ><a class="text-link" href="/docs/"
+            >Read the docs <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <p class="fine">One Go binary · macOS & Linux · bring your own model</p>
+      </section>
+      <figure class="shell demo">
+        <a
+          href="/docs/assets/screenshot.png"
+          aria-label="View the full Rig terminal screenshot"
+        >
+          <img
+            class="product-screenshot"
+            src="/docs/assets/screenshot.png"
+            width="1400"
+            height="1030"
+            alt="Rig's terminal start screen: ASCII wordmark, file and command shortcuts, ready status, prompt input, project branch, and active model."
+          />
+        </a>
+        <figcaption class="caption">
+          Rig in your terminal. Describe the outcome and start building.
+        </figcaption>
+      </figure>
+      <section class="shell providers" aria-label="Supported model providers">
+        <p class="eyebrow">A familiar workspace. Your choice of model.</p>
+        <div class="provider-list">
+          <span
+            ><img
+              src="/assets/anthropic.svg"
+              alt=""
+              width="24"
+              height="24"
+            />Anthropic</span
+          ><span
+            ><img
+              src="/assets/openai.svg"
+              alt=""
+              width="24"
+              height="24"
+            />OpenAI</span
+          ><span
+            ><img
+              src="/assets/googlegemini.svg"
+              alt=""
+              width="24"
+              height="24"
+            />Gemini</span
+          ><span
+            ><img
+              src="/assets/openrouter.svg"
+              alt=""
+              width="24"
+              height="24"
+            />OpenRouter</span
+          >
+        </div>
+        <p class="fine">
+          Connect an API key, or use OpenAI subscription sign-in.
+        </p>
+      </section>
+      <section class="shell workflow section" id="workflow">
+        <div class="section-intro">
+          <p class="eyebrow">From “what if” to “that works”</p>
+          <h2>A little structure.<br /><em>A lot of room to build.</em></h2>
+          <p>
+            Start with a goal. Rig brings your project context and tools into
+            the conversation, and keeps the next step visible.
+          </p>
+          <a class="text-link" href="/docs/guides/workflows.html"
+            >Explore the workflow ↗</a
+          >
+        </div>
+        <ol class="steps">
+          <li>
+            <span>01</span>
+            <div>
+              <h3>Make yourself at home.</h3>
+              <p>
+                Open Rig in your repository. It picks up your AGENTS.md
+                instructions and reusable skills.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <h3>Give the work a direction.</h3>
+              <p>
+                Ask a question, describe a fix, or use /design, /plan, /build,
+                and /review to focus the turn.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <h3>Keep the whole picture.</h3>
+              <p>
+                Follow tool activity, coordinate focused workers, and return to
+                saved conversations when you’re ready.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+      <section class="shell section details">
+        <div class="section-heading">
+          <p class="eyebrow">Built to fit, not take over</p>
+          <h2>Your project has a way.<br /><em>Rig follows along.</em></h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <span class="feature-icon" aria-hidden="true">⌘</span>
+            <h3>Context that stays close.</h3>
+            <p>
+              Project instructions, skills, and local sessions keep the
+              conversation connected to the work.
+            </p>
+            <a href="/docs/reference/guides/system-prompt.html"
+              >Project context ↗</a
+            >
+          </article>
+          <article>
+            <span class="feature-icon" aria-hidden="true">↗</span>
+            <h3>A terminal. Or a pipeline.</h3>
+            <p>
+              Chat interactively, or use rig run for a headless task with a
+              machine-readable summary.
+            </p>
+            <a href="/docs/reference/cli.html">Meet the CLI ↗</a>
+          </article>
+          <article>
+            <span class="feature-icon" aria-hidden="true">⊞</span>
+            <h3>Your environment, your rules.</h3>
+            <p>
+              Run in your chosen VM or sandbox. Rig uses the tools you give it;
+              the environment sets their boundaries.
+            </p>
+            <a href="/docs/reference/guides/permissions.html"
+              >Execution boundaries ↗</a
+            >
+          </article>
+        </div>
+      </section>
+      <section class="shell section install" id="install">
+        <p class="eyebrow">Ready when you are</p>
+        <h2>Meet your next<br /><em>terminal companion.</em></h2>
+        <p>Install Rig, connect a model, and open your project.</p>
+        <div class="command">
+          <code id="install-command"
+            >curl -fsSL
+            https://raw.githubusercontent.com/smeltery/rig/main/install.sh |
+            bash</code
+          ><button
+            type="button"
+            data-copy="install-command"
+            aria-label="Copy installation command"
+          >
+            Copy
+          </button>
+        </div>
+        <p class="copy-status" role="status" aria-live="polite"></p>
+        <p class="fine">
+          Downloads a release and verifies its SHA-256 checksum.
+        </p>
+        <a class="text-link" href="/docs/quick-start.html"
+          >Choose your provider & start your first chat ↗</a
+        >
+      </section>
+      <section class="shell section faq">
+        <div>
+          <p class="eyebrow">A few good questions</p>
+          <h2>Before you <em>jump in.</em></h2>
+        </div>
+        <div class="questions">
+          <details>
+            <summary>Do I need a model subscription?</summary>
+            <p>
+              You need access to a supported model provider. Use an Anthropic,
+              OpenAI, Gemini, or OpenRouter API key, or sign in with a supported
+              ChatGPT/Codex subscription. Provider charges and terms apply.
+            </p>
+          </details>
+          <details>
+            <summary>Does Rig run entirely on my machine?</summary>
+            <p>
+              The binary, tools, and saved sessions run locally. Your chosen
+              model provider receives the conversation and relevant tool
+              results. Rig does not add product telemetry.
+            </p>
+          </details>
+          <details>
+            <summary>Does Rig sandbox commands?</summary>
+            <p>
+              No. Run Rig in a VM or sandbox that controls filesystem, process,
+              network, and credential access. Optional interactive tool
+              confirmations are not a security boundary.
+            </p>
+          </details>
+          <details>
+            <summary>Can I adapt it to my project?</summary>
+            <p>
+              Yes. Add AGENTS.md instructions, reusable skills, and custom named
+              phases. Rig is source-available under the PolyForm Shield license;
+              see the license for its terms.
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+    <!-- footer -->
+  </body>
+</html>

@@ -95,3 +95,25 @@ lint:
 # Print the version that would be stamped (for debugging)
 print-version:
     @echo {{version}}
+
+# Install locked documentation dependencies, browser, and both Git hooks
+setup:
+    bun install --frozen-lockfile
+    bun run --bun puppeteer browsers install chrome
+    pre-commit install --hook-type pre-commit --hook-type pre-push
+
+# Run the same checks as CI and Git hooks (inside Flox)
+check:
+    ./scripts/check.sh
+
+# Render diagrams and validate Markdown and local links
+docs:
+    bun run docs
+
+# Build the static website for Vercel
+website:
+    bun run website
+
+# Preview the static website locally
+preview:
+    bun run preview

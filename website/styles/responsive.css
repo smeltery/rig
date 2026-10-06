@@ -1,0 +1,86 @@
+@media (max-width: 700px) {
+  .shell {
+    width: calc(100% - 36px);
+  }
+  .header {
+    height: 78px;
+  }
+  .header nav {
+    gap: 17px;
+    font-size: 11px;
+  }
+  .header nav a:first-child {
+    display: none;
+  }
+  .hero {
+    padding-top: 60px;
+  }
+  .lede {
+    font-size: 14px;
+  }
+  .desktop {
+    display: none;
+  }
+  .provider-list {
+    gap: 22px;
+  }
+  .provider-list > span {
+    font-size: 15px;
+  }
+  .providers {
+    padding-top: 45px;
+  }
+  .section {
+    margin-top: 75px;
+  }
+  .workflow,
+  .faq {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .workflow {
+    padding-top: 45px;
+  }
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 23px;
+  }
+  .feature-icon {
+    margin-bottom: 12px;
+  }
+  .install {
+    padding: 40px 18px;
+  }
+  .footer-top {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+    margin-bottom: 20px;
+  }
+  .footer-bottom {
+    flex-wrap: wrap;
+    font-size: 9px;
+    gap: 12px;
+  }
+  .docs-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-top: 30px;
+  }
+  .docs-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 12px;
+    gap: 12px;
+  }
+  .prose h1 {
+    font-size: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

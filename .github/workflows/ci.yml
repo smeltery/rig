@@ -2,184 +2,59 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
+  quality:
+    name: Quality, docs, and website
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
-
+    timeout-minutes: 25
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: flox/install-flox-action@5bb9eaaffbeaa699a8251a1ae21ecf4c8e0e37d4 # v2.7.0
         with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Build
-        run: go build ./...
-
-  test:
-    name: Test (race detector)
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Test with race detector
-        run: go test -race ./...
-
-  test-macos:
-    name: Test (macOS)
-    runs-on: macos-15
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Test with race detector
-        run: go test -race ./...
-
-  vet:
-    name: Vet
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Vet
-        run: go vet ./...
-
-  fmt:
-    name: Formatting
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Check formatting
+          version: 1.17.0
+      - name: Install locked tooling
         run: |
-          files="$(gofmt -l .)"
-          if [ -n "$files" ]; then
-            echo "$files"
-            exit 1
-          fi
-
-  lint:
-    name: golangci-lint
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
+          flox activate -- bun install --frozen-lockfile
+          flox activate -- bun run --bun puppeteer browsers install chrome
+      - name: Run shared quality checks
+        run: flox activate -- ./scripts/check.sh quality
+      - name: Upload website preview
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v9
+          name: website
+          path: dist/
+          retention-days: 7
+  test:
+    name: Build and race tests (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: flox/install-flox-action@5bb9eaaffbeaa699a8251a1ae21ecf4c8e0e37d4 # v2.7.0
         with:
-          version: v2.12.2
-
-  loc-budget:
-    name: LOC budget
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Check file line-count budget
-        run: ./scripts/loc-budget.sh
-
-  docs:
-    name: Docs checks
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Lint markdown
-        uses: DavidAnson/markdownlint-cli2-action@v24
+          version: 1.17.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          globs: |
-            **/*.md
-            !.github/**
-
-      - name: Validate mermaid diagrams
-        run: ./scripts/check-mermaid.sh
-
-  shellcheck:
-    name: shellcheck
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Run shellcheck
-        uses: ludeeus/action-shellcheck@2.0.0
-
-  actionlint:
-    name: actionlint
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Run actionlint
-        uses: raven-actions/actionlint@v2
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+            ~/Library/Caches/go-build
+          key: go-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('go.sum', '.flox/env/manifest.lock') }}
+          restore-keys: go-${{ runner.os }}-${{ runner.arch }}-
+      - name: Run shared build and test checks
+        run: flox activate -- ./scripts/check.sh test

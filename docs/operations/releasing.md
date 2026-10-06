@@ -14,7 +14,18 @@ Publish a new stable release through the single supported install path:
 
 ## Important context
 
-- Stable releases are created by pushing a `v*` tag.
+- Successful push CI on `main` triggers `auto-release.yml`, following Hab's
+  automatic patch-tag and explicit release-dispatch pattern.
+- Only the tested commit is tagged, and only while it is still the tip of main.
+  Superseded runs skip; prerelease tags do not influence patch calculation.
+- `release.yml` supports tag pushes and manual dispatch with a `tag` input.
+  Explicit dispatch is necessary because tags pushed with `GITHUB_TOKEN` do
+  not trigger other workflows.
+- The first automatic version is `v0.1.0`; later versions increment the latest
+  stable patch. Retry a failed dispatch by rerunning Auto release; existing
+  published releases are skipped.
+- The checklist below is for deliberate version bumps and manual recovery.
+  Do not race the automatic workflow with a second tag on the same commit.
 - The release workflow is `.github/workflows/release.yml`.
 - GoReleaser config is `.goreleaser.yaml`.
 - Release notes live in `CHANGELOG.md`.

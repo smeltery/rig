@@ -7,3 +7,4 @@
 /.codex-worktrees/
 /.rig/events.jsonl
 /.rig/eval-results/
+/node_modules/

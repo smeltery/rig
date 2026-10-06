@@ -28,18 +28,28 @@ is_exception() {
 }
 
 failures=0
+web_lines=0
 while IFS= read -r path; do
   [[ -f "$path" ]] || continue
   lines="$(wc -l < "$path" | tr -d '[:space:]')"
-  if (( lines <= budget_lines )); then
+  file_budget=$budget_lines
+  case "$path" in
+    website/*|scripts/*.ts) file_budget=300; web_lines=$((web_lines + lines)) ;;
+  esac
+  if (( lines <= file_budget )); then
     continue
   fi
   if is_exception "$path"; then
     continue
   fi
-  echo "error: $path has $lines lines (budget: $budget_lines)" >&2
+  echo "error: $path has $lines lines (budget: $file_budget)" >&2
   failures=$((failures + 1))
-done < <(git ls-files -- '*.go' '*.sh')
+done < <(git ls-files --cached --others --exclude-standard -- '*.go' '*.sh' '*.ts' '*.js' '*.css' '*.html')
+
+if (( web_lines > 1800 )); then
+  echo "error: website and TypeScript tooling total $web_lines lines (budget: 1800)" >&2
+  failures=$((failures + 1))
+fi
 
 if (( failures > 0 )); then
   echo "error: $failures file(s) exceed the $budget_lines line budget" >&2
@@ -47,4 +57,4 @@ if (( failures > 0 )); then
   exit 1
 fi
 
-echo "loc-budget: all tracked source files are within the ${budget_lines}-line budget (${#exceptions[@]} exception(s) allowed)"
+echo "loc-budget: Go/shell <= 1000; website/tooling <= 300 per file, $web_lines/1800 total (${#exceptions[@]} legacy exceptions)"

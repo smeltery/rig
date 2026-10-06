@@ -1,0 +1,39 @@
+.demo {
+  max-width: 830px;
+  margin-top: 12px;
+}
+.product-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 18px 35px -25px #27322780;
+}
+.caption {
+  color: var(--muted);
+  text-align: center;
+  font-size: 11px;
+  margin-top: 20px;
+}
+.providers {
+  text-align: center;
+  padding: 65px 0 0;
+}
+.provider-list {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.provider-list > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 550;
+  letter-spacing: -0.04em;
+}
+.provider-list img {
+  opacity: 0.78;
+}

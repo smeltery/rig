@@ -1,17 +1,28 @@
-# rig docs
+# Rig documentation
 
-The docs are grouped by how you use them:
+Rig is a terminal coding agent: describe a change, inspect its work, and keep
+project instructions, tools, and conversations close to your repository.
 
-- [Install](install.md) and [Quick start](quick-start.md) — get from a fresh
-  install to your first chat.
-- [Reference](reference/) — architecture, [CLI](reference/cli.md),
-  [configuration](reference/config.md), [sessions](reference/sessions.md),
-  [tools](reference/tools.md), [named phases](reference/phases.md), and
-  [prompt caching](reference/prompt-caching.md).
-- [Guides](reference/guides/) — plain-language explainers of the same
-  topics: the agent loop, the system prompt, tools, sandboxing and
-  approvals, providers, sessions, and compaction.
-- [Operations](operations/) — [performance baseline](operations/performance.md)
-  and the [release SOP](operations/releasing.md).
-- [Architecture](../ARCHITECTURE.md) — a longer, from-source deep dive into
-  how the pieces fit together.
+## Get started
+
+1. [Install Rig](install.md) on macOS or Linux.
+2. [Connect a provider and start a chat](quick-start.md).
+3. [Work through a change](guides/workflows.md), resume it later, or run headless.
+4. [Troubleshoot common problems](guides/troubleshooting.md).
+
+## Understand the tools
+
+- [Configuration](reference/config.md): providers, models, approvals, and features.
+- [CLI](reference/cli.md): interactive and headless commands.
+- [Sessions](reference/sessions.md): saved conversations and resuming work.
+- [Named phases](reference/phases.md): design, plan, build, and review prompts.
+- [Concept guides](reference/guides/index.md): agent loop, tools, providers,
+  instructions, compaction, and execution boundaries.
+
+## Contribute and operate
+
+- [Development](development.md): Flox, Bun, CI, hooks, and line budgets.
+- [Reference index](reference/index.md) and [architecture](reference/architecture.md).
+- [Performance](operations/performance.md).
+- [Releases](operations/releasing.md).
+- [Website](operations/website.md): local preview, brand assets, and Vercel setup.

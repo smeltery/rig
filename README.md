@@ -1,153 +1,51 @@
 # rig
 
-![demo](docs/assets/screenshot.png)
+[![Rig — keep your tools close, your work in view](website/assets/og.png)](docs/README.md)
 
 [![CI](https://github.com/smeltery/rig/actions/workflows/ci.yml/badge.svg)](https://github.com/smeltery/rig/actions/workflows/ci.yml)
-[![License: PolyForm Shield 1.0.0](https://img.shields.io/badge/license-PolyForm%20Shield%201.0.0-blue.svg)](LICENSE)
-[![Go](https://img.shields.io/badge/go-1.25%2B-00ADD8.svg?logo=go&logoColor=white)](go.mod)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](.pre-commit-config.yaml)
-[![Dev env: Flox](https://img.shields.io/badge/dev%20env-flox-7c3aed.svg)](https://flox.dev)
+[![Release](https://img.shields.io/github/v/release/smeltery/rig)](https://github.com/smeltery/rig/releases)
+[![Go](https://img.shields.io/badge/Go-1.25%2B-00ADD8?logo=go&logoColor=white)](go.mod)
+[![Bun](https://img.shields.io/badge/tooling-Bun-14151a?logo=bun)](package.json)
+[![Flox](https://img.shields.io/badge/environment-Flox-6d5bd0)](.flox/env/manifest.toml)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-fab040?logo=precommit&logoColor=black)](.pre-commit-config.yaml)
+[![License](https://img.shields.io/badge/license-PolyForm_Shield_1.0.0-blue)](LICENSE)
 
-rig is a minimalist coding agent harness and orchestrator that works where
-engineering happens: in your repository, with your project instructions,
-tools, and git history.
+A small Go coding agent for your terminal. Rig works in your repository, follows
+`AGENTS.md` and reusable skills, and keeps the plan, tool activity, and delegated
+work visible while you build.
 
-Start it in a project and rig keeps the plan, tool activity, tests, and
-delivered diff visible in one terminal instead of buried in a chat log.
+- **Your provider:** Anthropic, OpenAI, Google Gemini, or OpenRouter.
+- **Your workflow:** interactive chat, headless runs, saved sessions, and
+  `/design`, `/plan`, `/build`, `/review` prompts.
+- **Your environment:** one native binary; run it inside your chosen VM or
+  sandbox to control filesystem, process, network, and credential access.
 
-```console
-$ cd ~/dev/my-service
-$ rig
-rig> Find the cause of the failing test, plan the fix, implement it, run the
-     relevant checks, and review the final diff.
-```
-
-## Why
-
-- Visible by default — see the plan, active work, tool activity, tests, and
-  delegated tasks without reading a wall of chat.
-- One coordinator, focused workers — delegate bounded work to subagents and
-  bring their evidence back into one coherent workflow; independent reads,
-  searches, and inspection subagents run in parallel.
-- Your model, your choice — Anthropic, OpenAI, Google Gemini, or OpenRouter,
-  switchable per session without leaving the terminal.
-- Sandbox-first execution — let the runtime contain tools, and confirm
-  selected interactive tool calls; steer active work or queue the next
-  instruction at any time.
-- A small, dependable foundation — one native Go binary, built-in tools, local
-  sessions, no runtime or plugin stack, and no product telemetry.
-
-## Install
-
-rig is a single self-contained binary. The short path is:
+## Start
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/smeltery/rig/main/install.sh | bash
-```
-
-The installer downloads the matching GitHub release for your host, verifies
-its SHA-256 checksum, and installs it to `~/.local/bin/rig` by default. See
-[the install guide](docs/install.md) for version pinning and custom install
-directories.
-
-Connect a model — rig uses Anthropic by default:
-
-```sh
-export ANTHROPIC_API_KEY="sk-ant-..."
-```
-
-Prefer OpenAI, Gemini, or OpenRouter? See the
-[quick start guide](docs/quick-start.md) for API keys, ChatGPT/Codex
-subscription login, and the `rig.yaml` config.
-
-```sh
-rig doctor
-```
-
-## Common Workflows
-
-Start rig in a repository:
-
-```sh
+export ANTHROPIC_API_KEY="your-key"
 cd your-project
 rig
 ```
 
-Run the CLI's other subcommands:
+See [installation](docs/install.md) for checksums and pinned versions, or the
+[quick start](docs/quick-start.md) for other providers and subscription login.
+
+## Explore
+
+[Documentation](docs/README.md) · [Workflows](docs/guides/workflows.md) ·
+[Configuration](docs/reference/config.md) · [Troubleshooting](docs/guides/troubleshooting.md)
+
+## Develop
 
 ```sh
-rig chat      # start a chat session (default)
-rig sessions  # list and resume previous sessions
-rig login     # authenticate a ChatGPT/Codex subscription
-rig doctor    # check config, provider auth, and session storage
+flox activate
+just setup
+just check
 ```
 
-Make the workflow yours: rig follows repository instructions from `AGENTS.md`
-and reusable skills from `.rig/skills/`. Define how your team plans, tests,
-reviews, and ships once, then let every task follow the same process.
+[Development guide](docs/development.md) · [Architecture](docs/reference/architecture.md) ·
+[Website and Vercel](docs/operations/website.md)
 
-rig also ships with focused `/design`, `/plan`, `/build`, and `/review`
-phases. Each phase is a named prompt shown in the workflow UI for that turn.
-Add or override phases through `rig.yaml` without installing a skill.
-
-## Configuration
-
-Project settings live in `./rig.yaml`. Global settings live in
-`~/.rig/config.yaml`. The first file found wins — config files are not merged.
-
-```yaml
-provider: anthropic
-model: claude-opus-5
-```
-
-See [internal/config/defaults/rig.yaml](internal/config/defaults/rig.yaml) for
-every documented option: provider selection, OpenAI auth mode, subagent
-provider/model overrides, and tool approval prompts.
-
-## Subprojects
-
-| Path | Description |
-|------|-------------|
-| [`cmd/rig`](cmd/rig) | CLI entry point: flag parsing, provider wiring, and the `rig` binary's subcommands (`chat`, `sessions`, `login`, `doctor`, ...). |
-| [`internal/*`](internal) | The 16 packages that implement the agent: `agent` (policy-free agent loop), `llm` (provider clients), `tools`, `tui`, `workflow`, `phase`, `skills`, `session`, `config`, `auth`, `approval`, `compact`, `factory`, `workspace`, `projectctx`, `atomicfile`, and `logx`. |
-
-## Docs
-
-- [Install](docs/install.md) and [quick start](docs/quick-start.md) — get
-  from a fresh install to your first chat.
-- [Reference documentation](docs/reference/index.md) — architecture,
-  configuration, sessions, tools, and the CLI.
-- [Architecture overview](ARCHITECTURE.md) — a from-source description of how
-  the pieces fit together.
-- [Docs index](docs/README.md) — the full documentation map, including
-  guides and operations.
-
-## Development
-
-```sh
-go build -o rig ./cmd/rig
-go run ./cmd/rig
-```
-
-This repository uses [`just`](https://github.com/casey/just) as its command
-runner:
-
-```sh
-just build            # build the rig binary (stamps the version)
-just dev              # run rig in dev mode
-just test             # run the test suite
-just test-verbose     # run tests with verbose output
-just lint             # go vet + golangci-lint
-just fmt              # gofmt the whole tree
-just install          # install rig onto a runnable PATH directory
-just performance      # build the release-shaped binary and run microbenchmarks
-```
-
-With [Flox](https://flox.dev) installed, `flox activate` provides the pinned
-Go toolchain used by CI, so `just build` and `just test` behave the same
-locally as they do in CI.
-
-Start with the [reference documentation](docs/reference/index.md) before
-changing the agent loop, providers, tools, or TUI.
-
-[PolyForm Shield License 1.0.0](LICENSE).
+[PolyForm Shield License 1.0.0](LICENSE) · Made by [Smeltery](https://github.com/smeltery).

@@ -10,10 +10,15 @@ for (const name of ["Anthropic", "Googlegemini", "Openrouter", "Github"]) {
 const screenshot = Buffer.from(
   await Bun.file("docs/assets/screenshot.png").arrayBuffer(),
 ).toString("base64");
-const source = (await Bun.file(`${assets}/og.svg`).text()).replace(
-  "../../docs/assets/screenshot.png",
-  `data:image/png;base64,${screenshot}`,
-);
+const mark = Buffer.from(
+  await Bun.file(`${assets}/mark.svg`).arrayBuffer(),
+).toString("base64");
+const source = (await Bun.file(`${assets}/og.svg`).text())
+  .replace(
+    "../../docs/assets/screenshot.png",
+    `data:image/png;base64,${screenshot}`,
+  )
+  .replace('href="mark.svg"', `href="data:image/svg+xml;base64,${mark}"`);
 const image = new Resvg(source, { font: { loadSystemFonts: true } }).render();
 await Bun.write(`${assets}/og.png`, image.asPng());
 console.log("Generated provider marks and 1200 × 630 social image.");

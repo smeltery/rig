@@ -37,11 +37,18 @@ by Vercel once the repository is connected; CI does not publish to GitHub Pages.
 
 ## Brand assets
 
-`website/assets/mark.svg` is Rig's mark. `og.svg` is the editable social-card
+`website/assets/mark.svg` is Rig's symbol: three structural beams forming an
+open hexagonal frame. Its single blue silhouette works without a background
+tile, from favicon to wordmark size. The social-card generator embeds this
+same SVG so the mark stays consistent across assets.
+
+`og.svg` is the editable social-card
 source; `og.png` is the 1200 × 630 image used by the README and social metadata.
 Run `bun scripts/brand-assets.ts` to regenerate the PNG and provider marks.
 Keep both sources and generated assets committed. The generator uses the
-locked Simple Icons package for Anthropic, Gemini, OpenRouter, and GitHub. The
+locked Simple Icons package for Anthropic, Gemini, OpenRouter, GitHub, Apple,
+and Linux. Apple and Linux marks identify the supported platforms in the
+social image. The
 OpenAI mark is shared with Smeltery's Trellis brand assets; these marks identify
 supported technologies and do not imply endorsement.
 

@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#0f1113"/>
   <path d="M64 104h1072M64 545h1072" stroke="#2b3037"/>
-  <rect x="64" y="42" width="40" height="40" rx="10" fill="#79aaff"/>
-  <path d="m75 54 7 8-7 8m13 0h9" fill="none" stroke="#0f1113" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <image x="64" y="42" width="40" height="40" href="mark.svg"/>
   <text x="117" y="73" font-family="Arial" font-weight="700" font-size="32" fill="#e6e8eb">rig.</text>
   <text x="1136" y="68" text-anchor="end" font-family="Arial" font-size="16" fill="#a0a6af">A small agent. A clear view of the work.</text>
   <text x="64" y="245" font-family="Arial" font-size="65" letter-spacing="-3" fill="#e6e8eb">Keep your tools close.</text>
@@ -11,6 +10,9 @@
   <rect x="67" y="426" width="246" height="43" rx="22" fill="#e6e8eb"/>
   <text x="190" y="453" text-anchor="middle" font-family="Arial" font-size="15" fill="#0f1113">Your repository. Your model.</text>
   <image x="800" y="181" width="342" height="300" href="../../docs/assets/screenshot.png" preserveAspectRatio="xMidYMid meet"/>
-  <text x="64" y="585" font-family="Arial" font-size="16" fill="#a0a6af">macOS + Linux  ·  One Go binary  ·  Built by Smeltery</text>
+  <image x="64" y="565" width="22" height="22" href="apple.svg"/>
+  <text x="96" y="583" font-family="Arial" font-size="16" fill="#a0a6af">macOS</text>
+  <image x="176" y="565" width="22" height="22" href="linux.svg"/>
+  <text x="208" y="583" font-family="Arial" font-size="16" fill="#a0a6af">Linux</text>
   <text x="1136" y="585" text-anchor="end" font-family="Arial" font-size="16" fill="#a0a6af">github.com/smeltery/rig</text>
 </svg>

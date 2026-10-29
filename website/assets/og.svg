@@ -1,18 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <clipPath id="terminal"><rect x="466" y="58" width="702" height="542" rx="12"/></clipPath>
+  </defs>
   <rect width="1200" height="630" fill="#0f1113"/>
-  <path d="M64 104h1072M64 545h1072" stroke="#2b3037"/>
-  <image x="64" y="42" width="40" height="40" href="mark.svg"/>
-  <text x="117" y="73" font-family="Arial" font-weight="700" font-size="32" fill="#e6e8eb">rig.</text>
-  <text x="1136" y="68" text-anchor="end" font-family="Arial" font-size="16" fill="#a0a6af">A small agent. A clear view of the work.</text>
-  <text x="64" y="245" font-family="Arial" font-size="65" letter-spacing="-3" fill="#e6e8eb">Keep your tools close.</text>
-  <text x="64" y="323" font-family="Georgia" font-style="italic" font-size="72" letter-spacing="-3" fill="#79aaff">Your work in view.</text>
-  <text x="67" y="380" font-family="Arial" font-size="21" fill="#a0a6af">A coding agent that feels at home in your terminal.</text>
-  <rect x="67" y="426" width="246" height="43" rx="22" fill="#e6e8eb"/>
-  <text x="190" y="453" text-anchor="middle" font-family="Arial" font-size="15" fill="#0f1113">Your repository. Your model.</text>
-  <image x="800" y="181" width="342" height="300" href="../../docs/assets/screenshot.png" preserveAspectRatio="xMidYMid meet"/>
-  <image x="64" y="565" width="22" height="22" href="apple.svg"/>
-  <text x="96" y="583" font-family="Arial" font-size="16" fill="#a0a6af">macOS</text>
-  <image x="176" y="565" width="22" height="22" href="linux.svg"/>
-  <text x="208" y="583" font-family="Arial" font-size="16" fill="#a0a6af">Linux</text>
-  <text x="1136" y="585" text-anchor="end" font-family="Arial" font-size="16" fill="#a0a6af">github.com/smeltery/rig</text>
+  <image x="40" y="40" width="36" height="36" href="mark.svg"/>
+  <text x="88" y="69" font-family="Arial" font-weight="700" font-size="32" fill="#e6e8eb">rig.</text>
+  <text x="40" y="242" font-family="Arial" font-size="38" letter-spacing="-1.5" fill="#e6e8eb">Keep your tools close.</text>
+  <text x="40" y="300" font-family="Georgia" font-style="italic" font-size="44" letter-spacing="-1.5" fill="#79aaff">Your work in view.</text>
+  <text x="40" y="355" font-family="Arial" font-size="20" fill="#a0a6af">A coding agent that feels at home</text>
+  <text x="40" y="384" font-family="Arial" font-size="20" fill="#a0a6af">in your terminal.</text>
+  <text x="40" y="439" font-family="Arial" font-size="16" fill="#e6e8eb">Your repository. Your model.</text>
+  <image x="40" y="542" width="20" height="20" href="apple.svg"/>
+  <text x="70" y="558" font-family="Arial" font-size="15" fill="#a0a6af">macOS</text>
+  <image x="143" y="542" width="20" height="20" href="linux.svg"/>
+  <text x="173" y="558" font-family="Arial" font-size="15" fill="#a0a6af">Linux</text>
+  <text x="40" y="598" font-family="Arial" font-size="15" fill="#a0a6af">github.com/smeltery/rig</text>
+  <rect x="466" y="30" width="702" height="570" rx="12" fill="#191c21"/>
+  <circle cx="484" cy="45" r="4" fill="#626b78"/>
+  <circle cx="500" cy="45" r="4" fill="#626b78"/>
+  <circle cx="516" cy="45" r="4" fill="#626b78"/>
+  <text x="817" y="49" text-anchor="middle" font-family="Arial" font-size="12" fill="#a0a6af">rig — terminal</text>
+  <image x="466" y="58" width="702" height="542" href="../../docs/assets/screenshot.png" preserveAspectRatio="xMidYMid meet" clip-path="url(#terminal)"/>
+  <rect x="466" y="30" width="702" height="570" rx="12" fill="none" stroke="#343b46"/>
 </svg>
